@@ -1,0 +1,14 @@
+#:kivy 2.0
+
+<RootWidget>:
+    canvas.before:
+        Color:
+            rgb: 0.2, 0.2, 0.2
+        Rectangle:
+            pos: root.pos
+            size: root.size
+
+    GridLayout:
+        id: buttons_grid
+        cols: 1
+        size_hint: 0.15, 1
