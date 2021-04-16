@@ -3,8 +3,8 @@ from kivy.uix.button import Button
 from kivy.uix.floatlayout import FloatLayout
 
 CURRENCIES = ["BTC", "ETH", "XRP", "DASH", "DOGE"]
-BUTTON_COLOR_CLICKED = (232 / 255, 159 / 255, 0, 1)
-BUTTON_COLOR_NOT_CLICKED = (130 / 255, 130 / 255, 130 / 255, 1)
+COLOR_CURR_BUTTON_CLICKED = (232 / 255, 159 / 255, 0, 1)
+COLOR_CURR_BUTTON_NOT_CLICKED = (130 / 255, 130 / 255, 130 / 255, 1)
 
 
 class MyButton(Button):
@@ -20,22 +20,28 @@ class RootWidget(FloatLayout):
         super(RootWidget, self).__init__(**kwargs)
 
         for b in CURRENCIES:
-            self.ids.buttons_grid.add_widget(MyButton(
+            self.ids.layout_buttons.add_widget(MyButton(
                 text=b,
                 background_normal="",
-                background_color=BUTTON_COLOR_NOT_CLICKED,
+                background_color=COLOR_CURR_BUTTON_NOT_CLICKED,
                 background_down="",
                 on_press=currency_button_press,
-                size_hint_max_y=50
+                size_hint=(1, 0.05)
             ))
+
+    def favourites_button_press(self, instance):
+        print("fv")
+
+    def options_button_press(self, instance):
+        print("opt")
 
 
 def currency_button_press(instance):
     if instance.pressed:
-        instance.background_color = BUTTON_COLOR_NOT_CLICKED
+        instance.background_color = COLOR_CURR_BUTTON_NOT_CLICKED
         instance.pressed = False
     else:
-        instance.background_color = BUTTON_COLOR_CLICKED
+        instance.background_color = COLOR_CURR_BUTTON_CLICKED
         instance.pressed = True
 
 

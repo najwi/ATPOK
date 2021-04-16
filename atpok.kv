@@ -1,14 +1,61 @@
 #:kivy 2.0
 
+#:set COLOR_CURR_BUTTON_NOT_CLICKED 130 / 255, 130 / 255, 130 / 255, 1
+#:set COLOR_BACKGROUND 0.2, 0.2, 0.2, 1
+#:set COLOR_OPT_BUTTON 0.4, 0.4, 0.4, 1
+
 <RootWidget>:
     canvas.before:
         Color:
-            rgb: 0.2, 0.2, 0.2
+            rgb: COLOR_BACKGROUND
         Rectangle:
             pos: root.pos
             size: root.size
 
-    GridLayout:
-        id: buttons_grid
-        cols: 1
+    StackLayout:
+        canvas.before:
+            Color:
+                rgba: COLOR_CURR_BUTTON_NOT_CLICKED
+            Rectangle:
+                pos: self.pos
+                size: self.size
+
+        id: layout_buttons
         size_hint: 0.15, 1
+
+        GridLayout:
+            size_hint: 1, 0.08
+            cols: 2
+
+            Button:
+                id: button_options
+                background_down: ""
+                background_normal: ""
+                background_color: COLOR_OPT_BUTTON
+                on_press: root.options_button_press(self)
+
+                Image:
+                    source: "images/options_icon.png"
+                    center_x: self.parent.center_x
+                    center_y: self.parent.center_y
+                    size: self.parent.width * 0.5, self.parent.height * 0.5
+
+
+            Button:
+                id: button_favourites
+                background_down: ""
+                background_normal: ""
+                background_color: COLOR_OPT_BUTTON
+                on_press: root.favourites_button_press(self)
+
+                Image:
+                    source: "images/star_icon.png"
+                    center_x: self.parent.center_x
+                    center_y: self.parent.center_y
+                    size: self.parent.width * 0.5, self.parent.height * 0.5
+        Label:
+            size_hint: 1, 0.02
+
+
+
+        # favourite currencies buttons added in python
