@@ -1,8 +1,8 @@
 #:kivy 2.0
 
-#:set COLOR_CURR_BUTTON_NOT_CLICKED 130 / 255, 130 / 255, 130 / 255, 1
-#:set COLOR_BACKGROUND 0.2, 0.2, 0.2, 1
-#:set COLOR_OPT_BUTTON 0.4, 0.4, 0.4, 1
+#:set COLOR_CURR_BUTTON_NOT_CLICKED 0.4, 0.4, 0.4, 1
+#:set COLOR_BACKGROUND 0.3, 0.3, 0.3, 1
+#:set COLOR_OPT_BUTTON 130 / 255, 130 / 255, 130 / 255, 1
 
 <RootWidget>:
     canvas.before:
@@ -12,50 +12,84 @@
             pos: root.pos
             size: root.size
 
-    StackLayout:
-        canvas.before:
-            Color:
-                rgba: COLOR_CURR_BUTTON_NOT_CLICKED
-            Rectangle:
-                pos: self.pos
-                size: self.size
+    # Main window layout
+    BoxLayout:
+        orientation: "horizontal"
 
-        id: layout_buttons
-        size_hint: 0.15, 1
+        # Left menu layout
+        StackLayout:
+            canvas.before:
+                Color:
+                    rgba: COLOR_CURR_BUTTON_NOT_CLICKED
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
 
-        GridLayout:
-            size_hint: 1, 0.08
-            cols: 2
+            id: layout_buttons
+            size_hint: 0.15, 1
+            size_hint_min_x: 70
 
-            Button:
-                id: button_options
-                background_down: ""
-                background_normal: ""
-                background_color: COLOR_OPT_BUTTON
-                on_press: root.options_button_press(self)
+            # Options and favourites buttons
+            GridLayout:
+                size_hint: 1, 0.08
+                size_hint_min_y: 30
+                cols: 2
+                padding: [4, 4, 4, 4]
+                spacing: [4, 4]
 
-                Image:
-                    source: "images/options_icon.png"
-                    center_x: self.parent.center_x
-                    center_y: self.parent.center_y
-                    size: self.parent.width * 0.5, self.parent.height * 0.5
+                # Options button
+                AnchorLayout:
+                    anchor_x: "center"
+                    anchor_y: "center"
+                    Button:
+                        id: button_options
+                        background_normal: ""
+                        background_color: COLOR_OPT_BUTTON
+                        on_press: root.options_button_press(self)
+                    Image:
+                        source: "images/options_icon.png"
+                        size_hint: .6, .6
 
+                # Favourites button
+                AnchorLayout:
+                    anchor_x: "center"
+                    anchor_y: "center"
+                    Button:
+                        id: button_favourites
+                        background_normal: ""
+                        background_color: COLOR_OPT_BUTTON
+                        on_press: root.favourites_button_press(self)
+                    Image:
+                        source: "images/star_icon.png"
+                        size_hint: .6, .6
 
-            Button:
-                id: button_favourites
-                background_down: ""
-                background_normal: ""
-                background_color: COLOR_OPT_BUTTON
-                on_press: root.favourites_button_press(self)
+            # Refresh button
+            GridLayout:
+                size_hint: 1, 0.05
+                cols: 1
+                padding: [0, 0, 0, 4]
+                Button:
+                    background_normal: ""
+                    background_color: COLOR_OPT_BUTTON
+                    text: "Odśwież"
+                    on_press: root.refresh_chart()
 
-                Image:
-                    source: "images/star_icon.png"
-                    center_x: self.parent.center_x
-                    center_y: self.parent.center_y
-                    size: self.parent.width * 0.5, self.parent.height * 0.5
-        Label:
-            size_hint: 1, 0.02
+            # favourite currencies buttons added in python
 
+        # Right part of the main window
+        BoxLayout:
+            orientation: "vertical"
 
+            # Chart image
+            Image:
+                id: image_chart
+                source: "images/chart.png"
+                allow_stretch: True
 
-        # favourite currencies buttons added in python
+            # Time range buttons layout
+            GridLayout:
+                id: layout_time_buttons
+                size_hint: 1, 0.07
+                cols: 5
+                padding: [5, 5, 5, 5]
+                spacing: [5, 5]
