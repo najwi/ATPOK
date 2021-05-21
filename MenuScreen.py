@@ -11,7 +11,6 @@ CURRENCIES = ["BTC", "ETH", "XRP", "DASH", "DOGE"]
 COLOR_MY_BUTTON_CLICKED = (232 / 255, 159 / 255, 0, 1)
 COLOR_MY_BUTTON_NOT_CLICKED = (0.4, 0.4, 0.4, 1)
 
-crypto_buttons = []
 time_buttons = []
 
 
@@ -57,6 +56,7 @@ class DateTextInput(TextInput):
 class MenuScreen(Screen):
     def __init__(self, **kwargs):
         super(MenuScreen, self).__init__(**kwargs)
+        self.crypto_buttons = []
 
         # Creating crytpo currencies buttons
         for c in CURRENCIES:
@@ -66,8 +66,8 @@ class MenuScreen(Screen):
                 size_hint=(1, 0.05),
                 size_hint_min_y=20
             )
-            self.ids.layout_buttons.add_widget(temp_button)
-            crypto_buttons.append(temp_button)
+            self.ids.layout_currency_buttons.add_widget(temp_button)
+            self.crypto_buttons.append(temp_button)
 
         # Creating time buttons
         week_button = TimeButton(
@@ -111,7 +111,7 @@ class MenuScreen(Screen):
 
         time_range_button = TimeButton(
             time="range",
-            text="Przedział użytkownika",
+            text="Wybrany przedział",
             on_press=self.time_button_press,
         )
         self.ids.layout_time_range.add_widget(time_range_button)
@@ -136,7 +136,7 @@ class MenuScreen(Screen):
     # Resfresh chart image
     def refresh_chart(self):
         active_cryptos = []
-        for b in crypto_buttons:
+        for b in self.crypto_buttons:
             if b.pressed:
                 active_cryptos.append(b.text)
 
@@ -177,6 +177,24 @@ class MenuScreen(Screen):
         if active_cryptos:
             Chart.create_chart(active_cryptos, end, start)
             self.ids.image_chart.reload()
+
+    # Refreshes currency buttons list
+    def refresh_currency_buttons(self):
+        self.ids.layout_currency_buttons.clear_widgets()
+        self.crypto_buttons.clear()
+        favourites = self.manager.get_screen('favourites')
+
+        for s in favourites.switches:
+            children = s.children
+            if children[0].active:
+                temp_button = MyButton(
+                    text=children[1].text,
+                    on_press=crypto_button_press,
+                    size_hint=(1, 0.05),
+                    size_hint_min_y=20
+                )
+                self.ids.layout_currency_buttons.add_widget(temp_button)
+                self.crypto_buttons.append(temp_button)
 
 
 # Cryptocrurrency button on press

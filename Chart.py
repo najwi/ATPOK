@@ -8,6 +8,8 @@ class Chart:
     def create_chart(cls, cryptos, start, end):
         for i in range(len(cryptos)):
             cryptos[i] += "-USD"
-
-        df = pdr.get_data_yahoo(cryptos, start, end)['Close']
-        df.plot().get_figure().savefig('images/chart.png')
+        try:
+            df = pdr.get_data_yahoo(cryptos, start, end)['Close']
+            df.plot().get_figure().savefig('images/chart.png')
+        except ValueError:
+            pass

@@ -11,7 +11,7 @@
     write_tab: False
 
 <MenuScreen>:
-    canvas.before:
+    canvas:
         Color:
             rgb: COLOR_BACKGROUND
         Rectangle:
@@ -24,7 +24,7 @@
 
         # Left menu layout
         StackLayout:
-            canvas.before:
+            canvas:
                 Color:
                     rgba: COLOR_CURR_BUTTON_NOT_CLICKED
                 Rectangle:
@@ -43,21 +43,6 @@
                 padding: [4, 4, 4, 4]
                 spacing: [4, 4]
 
-                # Options button
-                AnchorLayout:
-                    anchor_x: "center"
-                    anchor_y: "center"
-                    Button:
-                        id: button_options
-                        background_normal: ""
-                        background_color: COLOR_OPT_BUTTON
-                        on_press:
-                            root.manager.transition.direction = 'left'
-                            root.manager.current = 'settings'
-                    Image:
-                        source: "images/options_icon.png"
-                        size_hint: .6, .6
-
                 # Favourites button
                 AnchorLayout:
                     anchor_x: "center"
@@ -73,6 +58,21 @@
                         source: "images/star_icon.png"
                         size_hint: .6, .6
 
+                # Options button
+                AnchorLayout:
+                    anchor_x: "center"
+                    anchor_y: "center"
+                    Button:
+                        id: button_options
+                        background_normal: ""
+                        background_color: COLOR_OPT_BUTTON
+                        on_press:
+                            root.manager.transition.direction = 'left'
+                            root.manager.current = 'settings'
+                    Image:
+                        source: "images/options_icon.png"
+                        size_hint: .6, .6
+
             # Refresh button
             GridLayout:
                 size_hint: 1, 0.05
@@ -84,7 +84,8 @@
                     text: "Odśwież"
                     on_press: root.refresh_button_press()
 
-            # favourite currencies buttons added in python
+            StackLayout:
+                id: layout_currency_buttons
 
         # Right part of the main window
         BoxLayout:
@@ -126,16 +127,43 @@
 
 
 <FavouritesScreen>:
-    FloatLayout:
-        Button:
-            on_press:
-                root.manager.transition.direction = 'left'
-                root.manager.current = 'menu'
+    AnchorLayout:
+        canvas:
+            Color:
+                rgb: COLOR_BACKGROUND
+            Rectangle:
+                pos: root.pos
+                size: root.size
+        anchor_x: 'center'
+        anchor_y: 'center'
+
+        BoxLayout:
+            orientation: 'vertical'
+            size_hint: .9, .9
+
+            GridLayout:
+                id: layout_switches
+                cols: 3
+                spacing: 10, 10
+
+            AnchorLayout:
+                size_hint: 1, 0.1
+                anchor_x: 'right'
+                padding: 10, 10, 10, 10
+                Button:
+                    size_hint: 0.1, 1
+                    text: "Wróć"
+                    on_press:
+                        root.manager.get_screen('menu').refresh_currency_buttons()
+                        root.manager.transition.direction = 'left'
+                        root.manager.current = 'menu'
 
 
 <SettingsScreen>:
     FloatLayout:
-        Button:
-            on_press:
-                root.manager.transition.direction = 'right'
-                root.manager.current = 'menu'
+        GridLayout:
+            size_hint: 0.6, 0.6
+            Button:
+                on_press:
+                    root.manager.transition.direction = 'right'
+                    root.manager.current = 'menu'
