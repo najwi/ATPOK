@@ -4,19 +4,17 @@ from kivy.uix.label import Label
 from kivy.uix.screenmanager import Screen
 from kivy.uix.switch import Switch
 from kivy.graphics import Color, Rectangle
+from Colors import *
 
 CURRENCIES = []
-
-COLOR_ORANGE = (232 / 255, 159 / 255, 0, 1)
-COLOR_LIGHT_GREY = (0.4, 0.4, 0.4, 1)
 
 
 # Layout for label and switch
 class SwitchLayout(GridLayout):
-    def __init__(self, code, color, **kwargs):
+    def __init__(self, text, color, bold=False, **kwargs):
         super(SwitchLayout, self).__init__(**kwargs)
         self.cols = 2
-        label = Label(text=code, bold=True)
+        label = Label(text=text, bold=bold)
         self.add_widget(label)
         self.add_widget(Switch())
 
@@ -32,13 +30,14 @@ class SwitchLayout(GridLayout):
         instance.rect.size = instance.size
 
 
+# Favourites screen layout
 class FavouritesScreen(Screen):
     def __init__(self, **kwargs):
         super(FavouritesScreen, self).__init__(**kwargs)
         self.switches = []
 
         # Read currencies from file
-        with open("configs/currencies.txt") as f:
+        with open("configs/currencies.cfg") as f:
             for line in f:
                 CURRENCIES.append(line[:-1])
 

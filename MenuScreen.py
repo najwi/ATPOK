@@ -6,10 +6,9 @@ from kivy.uix.textinput import TextInput
 import datetime as dt
 import re
 from Chart import *
+from Colors import *
 
 CURRENCIES = ["BTC", "ETH", "XRP", "DASH", "DOGE"]
-COLOR_MY_BUTTON_CLICKED = (232 / 255, 159 / 255, 0, 1)
-COLOR_MY_BUTTON_NOT_CLICKED = (0.4, 0.4, 0.4, 1)
 
 time_buttons = []
 
@@ -20,7 +19,7 @@ class MyButton(Button):
         super(MyButton, self).__init__(**kwargs)
         self.pressed = False
         self.background_normal = ""
-        self.background_color = COLOR_MY_BUTTON_NOT_CLICKED
+        self.background_color = COLOR_LIGHT_GREY
         self.background_down = ""
 
 
@@ -120,12 +119,12 @@ class MenuScreen(Screen):
     @staticmethod
     # Time range buttons on press
     def time_button_press(instance):
-        instance.background_color = COLOR_MY_BUTTON_CLICKED
+        instance.background_color = COLOR_ORANGE
         instance.pressed = True
         for t in time_buttons:
             if t is not instance:
                 t.pressed = False
-                t.background_color = COLOR_MY_BUTTON_NOT_CLICKED
+                t.background_color = COLOR_LIGHT_GREY
 
     # Refresh button on press
     def refresh_button_press(self):
@@ -174,8 +173,15 @@ class MenuScreen(Screen):
                     self.ids.text_input_start_date.invalid_date()
                     return
 
-        if active_cryptos:
-            Chart.create_chart(active_cryptos, end, start)
+        showing = []
+        for s in self.manager.get_screen('settings').showing:
+            if s.children[0].active:
+                showing.append(s.showing)
+
+        log_scale = self.manager.get_screen('settings').switch_log_scale.children[0].active
+
+        if active_cryptos and showing:
+            Chart.create_chart(active_cryptos, end, start, showing, log_scale)
             self.ids.image_chart.reload()
 
     # Refreshes currency buttons list
@@ -200,8 +206,8 @@ class MenuScreen(Screen):
 # Cryptocrurrency button on press
 def crypto_button_press(instance):
     if instance.pressed:
-        instance.background_color = COLOR_MY_BUTTON_NOT_CLICKED
+        instance.background_color = COLOR_LIGHT_GREY
         instance.pressed = False
     else:
-        instance.background_color = COLOR_MY_BUTTON_CLICKED
+        instance.background_color = COLOR_ORANGE
         instance.pressed = True

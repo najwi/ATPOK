@@ -4,6 +4,7 @@
 #:set COLOR_BACKGROUND 0.3, 0.3, 0.3, 1
 #:set COLOR_OPT_BUTTON 130 / 255, 130 / 255, 130 / 255, 1
 
+
 <DateTextInput>:
     multiline: False
     background_color: [1,1,1,0.9]
@@ -96,7 +97,7 @@
                 id: image_chart
                 source: "images/chart.png"
                 allow_stretch: True
-                color: [1, 1, 1, 0.9]
+                #color: [1, 1, 1, 0.9]
 
             # Time range input and buttons
             GridLayout:
@@ -160,10 +161,32 @@
 
 
 <SettingsScreen>:
-    FloatLayout:
-        GridLayout:
-            size_hint: 0.6, 0.6
-            Button:
-                on_press:
-                    root.manager.transition.direction = 'right'
-                    root.manager.current = 'menu'
+    AnchorLayout:
+        canvas:
+            Color:
+                rgb: COLOR_BACKGROUND
+            Rectangle:
+                pos: root.pos
+                size: root.size
+        anchor_x: 'center'
+        anchor_y: 'center'
+
+        BoxLayout:
+            orientation: 'vertical'
+            size_hint: .8, .8
+
+            GridLayout:
+                id: layout_settings
+                cols: 1
+                spacing: 10, 10
+
+            AnchorLayout:
+                size_hint: 1, 0.13
+                anchor_x: 'right'
+                padding: 10, 10, 10, 10
+                Button:
+                    size_hint: 0.13, 1
+                    text: "Wróć"
+                    on_press:
+                        root.manager.transition.direction = 'right'
+                        root.manager.current = 'menu'

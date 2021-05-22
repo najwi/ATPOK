@@ -11,7 +11,7 @@ from SettingsScreen import SettingsScreen
 class AtpokApp(App):
     def build(self):
         # Default window size
-        Window.size = (860, 600)
+        Window.size = (1100, 650)
         # Minimum window size
         Window.minimum_width = 500
         Window.minimum_height = 270
