@@ -1,5 +1,4 @@
 from kivy.uix.button import Button
-from kivy.uix.floatlayout import FloatLayout
 from kivy.core.window import Window
 from kivy.uix.screenmanager import Screen
 from kivy.uix.textinput import TextInput
