@@ -4,13 +4,14 @@
 #:set COLOR_BACKGROUND 0.3, 0.3, 0.3, 1
 #:set COLOR_OPT_BUTTON 130 / 255, 130 / 255, 130 / 255, 1
 
-
+# Class for date user input
 <DateTextInput>:
     multiline: False
     background_color: [1,1,1,0.9]
     cursor_color: [0, 0, 0, 1]
     write_tab: False
 
+# Main screen class
 <MenuScreen>:
     canvas:
         Color:
@@ -25,68 +26,79 @@
 
         # Left menu layout
         StackLayout:
-            canvas:
-                Color:
-                    rgba: COLOR_CURR_BUTTON_NOT_CLICKED
-                Rectangle:
-                    pos: self.pos
-                    size: self.size
-
-            id: layout_buttons
             size_hint: 0.15, 1
             size_hint_min_x: 70
 
-            # Options and favourites buttons
-            GridLayout:
-                size_hint: 1, 0.08
-                size_hint_min_y: 30
-                cols: 2
-                padding: [4, 4, 4, 4]
-                spacing: [4, 4]
-
-                # Favourites button
-                AnchorLayout:
-                    anchor_x: "center"
-                    anchor_y: "center"
-                    Button:
-                        id: button_favourites
-                        background_normal: ""
-                        background_color: COLOR_OPT_BUTTON
-                        on_press:
-                            root.manager.transition.direction = 'right'
-                            root.manager.current = 'favourites'
-                    Image:
-                        source: "images/star_icon.png"
-                        size_hint: .6, .6
-
-                # Options button
-                AnchorLayout:
-                    anchor_x: "center"
-                    anchor_y: "center"
-                    Button:
-                        id: button_options
-                        background_normal: ""
-                        background_color: COLOR_OPT_BUTTON
-                        on_press:
-                            root.manager.transition.direction = 'left'
-                            root.manager.current = 'settings'
-                    Image:
-                        source: "images/options_icon.png"
-                        size_hint: .6, .6
-
-            # Refresh button
-            GridLayout:
-                size_hint: 1, 0.05
-                cols: 1
-                padding: [0, 0, 0, 4]
-                Button:
-                    background_normal: ""
-                    background_color: COLOR_OPT_BUTTON
-                    text: "Odśwież"
-                    on_press: root.refresh_button_press()
-
             StackLayout:
-                id: layout_currency_buttons
+                canvas:
+                    Color:
+                        rgba: COLOR_CURR_BUTTON_NOT_CLICKED
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+
+                id: layout_buttons
+                size_hint: 1, 0.95
+
+                # Options and favourites buttons
+                GridLayout:
+                    size_hint: 1, 0.08
+                    size_hint_min_y: 30
+                    cols: 2
+                    padding: [4, 4, 4, 4]
+                    spacing: [4, 4]
+
+                    # Favourites button
+                    AnchorLayout:
+                        anchor_x: "center"
+                        anchor_y: "center"
+                        Button:
+                            id: button_favourites
+                            background_normal: ""
+                            background_color: COLOR_OPT_BUTTON
+                            on_press:
+                                root.manager.transition.direction = 'right'
+                                root.manager.current = 'favourites'
+                        Image:
+                            source: "images/star_icon.png"
+                            size_hint: .6, .6
+
+                    # Options button
+                    AnchorLayout:
+                        anchor_x: "center"
+                        anchor_y: "center"
+                        Button:
+                            id: button_options
+                            background_normal: ""
+                            background_color: COLOR_OPT_BUTTON
+                            on_press:
+                                root.manager.transition.direction = 'left'
+                                root.manager.current = 'settings'
+                        Image:
+                            source: "images/options_icon.png"
+                            size_hint: .6, .6
+
+                # Refresh button
+                GridLayout:
+                    size_hint: 1, 0.05
+                    cols: 1
+                    padding: [0, 0, 0, 4]
+                    Button:
+                        background_normal: ""
+                        background_color: COLOR_OPT_BUTTON
+                        text: "Odśwież"
+                        on_press: root.refresh_button_press()
+
+                # Currency buttons layout, buttons added in python code
+                StackLayout:
+                    id: layout_currency_buttons
+
+            # Exit button
+            Button:
+                size_hint: 1, 0.05
+                text: "Zamknij"
+                on_press:
+                    app.stop()
 
         # Right part of the main window
         BoxLayout:
@@ -127,11 +139,12 @@
                 spacing: [5, 5]
 
 
+# Favourites screen class
 <FavouritesScreen>:
     AnchorLayout:
         canvas:
             Color:
-                rgb: COLOR_BACKGROUND
+                rgb: COLOR_CURR_BUTTON_NOT_CLICKED
             Rectangle:
                 pos: root.pos
                 size: root.size
@@ -142,11 +155,13 @@
             orientation: 'vertical'
             size_hint: .9, .9
 
+            # Switches layout, switches added in python code
             GridLayout:
                 id: layout_switches
                 cols: 3
                 spacing: 10, 10
 
+            # Go back button
             AnchorLayout:
                 size_hint: 1, 0.1
                 anchor_x: 'right'
@@ -160,11 +175,12 @@
                         root.manager.current = 'menu'
 
 
+# Settings screen class
 <SettingsScreen>:
     AnchorLayout:
         canvas:
             Color:
-                rgb: COLOR_BACKGROUND
+                rgb: COLOR_CURR_BUTTON_NOT_CLICKED
             Rectangle:
                 pos: root.pos
                 size: root.size
@@ -175,11 +191,13 @@
             orientation: 'vertical'
             size_hint: .8, .8
 
+            # Settings switches layout, switches added in python code
             GridLayout:
                 id: layout_settings
                 cols: 1
                 spacing: 10, 10
 
+            # Go back button
             AnchorLayout:
                 size_hint: 1, 0.13
                 anchor_x: 'right'

@@ -1,3 +1,5 @@
+# Common colors
+
 COLOR_ORANGE = (232 / 255, 159 / 255, 0, 1)
 COLOR_LIGHT_GREY = (0.4, 0.4, 0.4, 1)
 COLOR_VERY_LIGHT_GREY = (130 / 255, 130 / 255, 130 / 255, 1)

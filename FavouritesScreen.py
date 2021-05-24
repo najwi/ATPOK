@@ -6,7 +6,7 @@ from kivy.uix.switch import Switch
 from kivy.graphics import Color, Rectangle
 from Colors import *
 
-CURRENCIES = []
+currencies = []
 
 
 # Layout for label and switch
@@ -35,24 +35,47 @@ class FavouritesScreen(Screen):
     def __init__(self, **kwargs):
         super(FavouritesScreen, self).__init__(**kwargs)
         self.switches = []
+        fav = []
 
-        # Read currencies from file
-        with open("configs/currencies.cfg") as f:
-            for line in f:
-                CURRENCIES.append(line[:-1])
+        try:
+            # Read currencies from file
+            with open("configs/currencies.cfg") as f:
+                for line in f:
+                    currencies.append(line[:-1])
+
+            # Read fav currencies
+            with open("configs/fav_currencies.cfg") as f:
+                for line in f:
+                    fav = line.split(",")
+        except FileNotFoundError:
+            pass
 
         orange = 0
         # Create switches
-        for c in CURRENCIES:
+        for c in currencies:
             if orange < 3:
                 sw = SwitchLayout(c, COLOR_ORANGE)
+                if c in fav:
+                    sw.children[0].active = True
+
                 self.ids.layout_switches.add_widget(sw)
                 self.switches.append(sw)
+
                 orange += 1
             else:
-                sw = SwitchLayout(c, COLOR_LIGHT_GREY)
+                sw = SwitchLayout(c, COLOR_VERY_LIGHT_GREY)
+                if c in fav:
+                    sw.children[0].active = True
+
                 self.ids.layout_switches.add_widget(sw)
                 self.switches.append(sw)
                 orange += 1
                 if orange == 6:
                     orange = 0
+
+    # Saving favourite currencies
+    def save_settings(self):
+        with open("configs/fav_currencies.cfg", "w") as f:
+            for s in self.switches:
+                if s.children[0].active:
+                    f.write(s.children[1].text+",")

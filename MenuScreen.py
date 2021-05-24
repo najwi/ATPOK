@@ -8,8 +8,6 @@ import re
 from Chart import *
 from Colors import *
 
-CURRENCIES = ["BTC", "ETH", "XRP", "DASH", "DOGE"]
-
 time_buttons = []
 
 
@@ -56,9 +54,18 @@ class MenuScreen(Screen):
     def __init__(self, **kwargs):
         super(MenuScreen, self).__init__(**kwargs)
         self.crypto_buttons = []
+        fav = []
+
+        try:
+            # Read saved favourites
+            with open("configs/fav_currencies.cfg") as f:
+                for line in f:
+                    fav = line[:-1].split(",")
+        except FileNotFoundError:
+            pass
 
         # Creating crytpo currencies buttons
-        for c in CURRENCIES:
+        for c in fav:
             temp_button = MyButton(
                 text=c,
                 on_press=crypto_button_press,
@@ -90,6 +97,8 @@ class MenuScreen(Screen):
             text="3 miesiące",
             on_press=self.time_button_press,
         )
+        three_month_button.background_color = COLOR_ORANGE
+        three_month_button.pressed = True
         self.ids.layout_time_buttons.add_widget(three_month_button)
         time_buttons.append(three_month_button)
 
@@ -173,15 +182,18 @@ class MenuScreen(Screen):
                     self.ids.text_input_start_date.invalid_date()
                     return
 
+        # What kind of chart will be generated
         showing = []
         for s in self.manager.get_screen('settings').showing:
             if s.children[0].active:
                 showing.append(s.showing)
 
+        # Checks for using log scale
         log_scale = self.manager.get_screen('settings').switch_log_scale.children[0].active
 
+        # Gets chart and reload image
         if active_cryptos and showing:
-            Chart.create_chart(active_cryptos, end, start, showing, log_scale)
+            create_chart(active_cryptos, end, start, showing, log_scale)
             self.ids.image_chart.reload()
 
     # Refreshes currency buttons list
