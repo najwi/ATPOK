@@ -1,4 +1,7 @@
-from kivy import Config
+from kivy.config import Config
+Config.set('input', 'mouse', 'mouse,multitouch_on_demand')
+Config.set('kivy', 'default_font', ['Segoe UI', 'fonts/segoeuib.ttf', 'fonts/segoeui.ttf'])
+
 from kivy.app import App
 from kivy.core.window import Window
 from kivy.uix.screenmanager import ScreenManager, SlideTransition
@@ -31,6 +34,4 @@ class AtpokApp(App):
 
 
 if __name__ == '__main__':
-    Config.set('kivy', 'default_font', ['Segoe UI', 'fonts/segoeuib.ttf', 'fonts/segoeui.ttf'])
-    Config.write()
     AtpokApp().run()
