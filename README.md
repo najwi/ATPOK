@@ -1,2 +1,2 @@
 # ATPOK
-ATPOK To Aplikacja O Kryptowalutach
+ATPOK To Program O Kryptowalutach
